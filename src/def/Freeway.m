@@ -1,12 +1,16 @@
 classdef Freeway
     
-    properties
+    properties ( Access = public )
         
         seg;
         
     end
     
-    methods
+    properties ( Access = private )
+        all_links
+    end
+    
+    methods ( Access = public )
         
         function obj = Freeway(sc_ptr)
             
@@ -20,9 +24,11 @@ classdef Freeway
             num_segments = length(ordered_ind);
             
             nodes = repmat(Node,1,num_segments+1);
-            obj.seg = repmat(Segment,1,num_segments);
             
+            % create segments
             for i=1:num_segments
+                
+                S = Segment;
                 
                 % get mainline link
                 xmllink = sc_ptr.scenario.NetworkSet.network.LinkList.link(ordered_ind(i));
@@ -51,7 +57,7 @@ classdef Freeway
                     end
                     [~,in_ind] = ismember(in_ids,link_ids);
                     or_ind = in_ind(strcmp(link_types(in_ind),str_or_type));
-                    xorlinks = sc_ptr.scenario.NetworkSet.network.LinkList.link(or_ind);                    
+                    xorlinks = sc_ptr.scenario.NetworkSet.network.LinkList.link(or_ind);
                 end
                 
                 % get offramp links
@@ -64,51 +70,94 @@ classdef Freeway
                     end
                     [~,out_ind] = ismember(out_ids,link_ids);
                     fr_ind = out_ind(strcmp(link_types(out_ind),str_fr_type));
-                    xfrlinks = sc_ptr.scenario.NetworkSet.network.LinkList.link(fr_ind);                    
+                    xfrlinks = sc_ptr.scenario.NetworkSet.network.LinkList.link(fr_ind);
                 end
                 
                 % create mainline link
                 ml_link = Link;
-                ml_link.set_att(obj.seg(i),xmllink);
-
+                ml_link.set_att(S,xmllink,'ml');
+                
                 % create hov link
                 hv_link = repmat(Link,1,0);
                 
                 % create onramp links
                 or_links = repmat(Link,1,length(xorlinks));
                 for j=1:length(xorlinks)
-                    or_links(j).set_att(obj.seg(i),xorlinks(j));
+                    or_links(j).set_att(S,xorlinks(j),'or');
                 end
-                   
+                
                 % create offramp links
                 fr_links = repmat(Link,1,length(xfrlinks));
                 for j=1:length(xfrlinks)
-                    fr_links(j).set_att(obj.seg(i),xfrlinks(j));
+                    fr_links(j).set_att(S,xfrlinks(j),'fr');
                 end
                 
                 % set node attributes
-                set(nodes(i),'dnSegment',obj.seg(i));
+                set(nodes(i),'dnSegment',S);
                 set(nodes(i),'id',xupnode.ATTRIBUTE.id);
-                set(nodes(i+1),'upSegment',obj.seg(i));
+                set(nodes(i+1),'upSegment',S);
                 set(nodes(i+1),'id',xdnnode.ATTRIBUTE.id);
                 
                 % set segment attributes
-                set(obj.seg(i),'up_node',nodes(i));
-                set(obj.seg(i),'dn_node',nodes(i+1));
-                set(obj.seg(i),'ml_link',ml_link);
-                set(obj.seg(i),'hv_link',hv_link);
-                set(obj.seg(i),'or_links',or_links);
-                set(obj.seg(i),'fr_links',fr_links);
-
+                set(S,'up_node',nodes(i));
+                set(S,'dn_node',nodes(i+1));
+                set(S,'ml_link',ml_link);
+                set(S,'hv_link',hv_link);
+                set(S,'or_links',or_links);
+                set(S,'fr_links',fr_links);
+                
+                obj.seg = [obj.seg S];
+                
+                
             end
             
-
+            obj.all_links = [[obj.seg.ml_link] [obj.seg.hv_link] [obj.seg.or_links] [obj.seg.fr_links]];
             
+            % assign sensors
+            if(isfieldRecursive(sc_ptr.scenario,'SensorSet','sensor'))
+                sensor_link = sc_ptr.get_sensor_link_map;
+                for i=1:size(sensor_link,1)
+                    sensor = Sensor;
+                    sensor.set_att(sc_ptr.scenario.SensorSet.sensor(i));
+                    ind=sensor.id==sensor_link(:,1);
+                    if(any(ind))
+                        myLink = obj.all_links(ind);
+                        set(sensor,'myLink',myLink);
+                        myLink.add_sensor(sensor);
+                    end
+                end
+            end
             
         end
         
+        function L = get_link_for_id(obj,link_id)
+            ind = [obj.all_links.id]==link_id;
+            if(any(ind))
+                L = obj.all_links(ind);
+            else
+                L = repmat(Link,1,0);
+            end
+        end
+       
+        function S = get_sensor_with_vds(obj,vds)
+            all_sensors = [obj.all_links.sensor];
+            ind=[all_sensors.vds]==vds;
+            if(any(ind))
+                S=all_sensors(ind);
+            else
+                S=repmat(Sensor,1,0);
+            end
+        end
+        
+        function S = get_sensor_with_linkid(obj,link_id)
+            ind = [obj.all_links.id]==link_id;
+            if(any(ind))
+                S=obj.all_links(ind).sensor;
+            else
+                S=repmat(Sensor,1,0);
+            end
+        end
         
     end
-    
 end
 
