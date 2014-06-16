@@ -132,13 +132,15 @@ classdef Freeway
             
             % assign fundamental diagrams
             if(isfieldRecursive(sc_ptr.scenario,'FundamentalDiagramSet','fundamentalDiagramProfile'))
-                fdp = sc_ptr.scenario.FundamentalDiagramSet.fundamentalDiagramProfile;
-                for i=1:length(fdp)
-                    link = obj.get_link_for_id(fdp(i).ATTRIBUTE.link_id);
-                    if(~isempty(link))
-                        link.assign_fundamental_diagram_from_xml(fdp(i).fundamentalDiagram);
-                    end
+                sc_ptr.scenario.FundamentalDiagramSet.fundamentalDiagramProfile
+                
+                fd_link_map = sc_ptr.get_fd_link_map
+                
+                for i=1:size(fd_link_map,1)
+                    fd_link_map(i,:)
+                    obj.get_link_for_id
                 end
+                
             end
             
             

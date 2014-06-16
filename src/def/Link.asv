@@ -34,12 +34,14 @@ classdef Link < hgsetget
         end
         
         function [obj]=assign_fundamental_diagram_from_xml(obj,fd)
-                A = fd.ATTRIBUTE;
-                obj.vf = A.free_flow_speed; %*convt/convd;
-                obj.w = A.congestion_speed; %*convt/convd;
-                obj.f_max = A.capacity; %*convt;
-                obj.dens_crit =A.capacity/A.free_flow_speed; %*convd;
-                obj.dens_jam = A.capacity*(1/A.free_flow_speed + 1/A.congestion_speed); %*convd;
+            if(isfield(F,'fundamentalDiagram'))
+                A = F.fundamentalDiagram.ATTRIBUTE;
+                FDParams(i).vf = A.free_flow_speed*convt/convd;
+                FDParams(i).w = A.congestion_speed*convt/convd;
+                FDParams(i).q_max = A.capacity*convt;
+                FDParams(i).rho_crit =A.capacity/A.free_flow_speed*convd;
+                FDParams(i).rj = A.capacity*(1/A.free_flow_speed + 1/A.congestion_speed)*convd;
+            end
         end
             
     end
