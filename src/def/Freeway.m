@@ -2,7 +2,8 @@ classdef Freeway
     
     properties ( Access = public )
         
-        seg;
+        units           % [us|si]
+        seg
         
     end
     
@@ -18,6 +19,10 @@ classdef Freeway
             str_fr_type = 'Off-Ramp';
             str_or_type = 'On-Ramp';
             
+            sc_ptr.change_units_to('si');
+            
+            obj.units = 'si';
+            
             link_ids = sc_ptr.get_link_ids;
             link_types = sc_ptr.get_link_types;
             node_ids = sc_ptr.get_node_ids;
@@ -29,7 +34,7 @@ classdef Freeway
             % create segments
             for i=1:num_segments
                 
-                S = Segment;
+                S = Segment(obj);
                 
                 % get mainline link
                 xmllink = sc_ptr.scenario.NetworkSet.network.LinkList.link(ordered_ind(i));
@@ -76,7 +81,7 @@ classdef Freeway
                 
                 % create mainline link
                 ml_link = Link;
-                ml_link.set_att(S,xmllink,'ml');
+                ml_link.set_att(S,xmllink,'ml','si');
                 
                 % create hov link
                 hv_link = repmat(Link,1,0);
@@ -84,13 +89,13 @@ classdef Freeway
                 % create onramp links
                 or_links = repmat(Link,1,length(xorlinks));
                 for j=1:length(xorlinks)
-                    or_links(j).set_att(S,xorlinks(j),'or');
+                    or_links(j).set_att(S,xorlinks(j),'or','si');
                 end
                 
                 % create offramp links
                 fr_links = repmat(Link,1,length(xfrlinks));
                 for j=1:length(xfrlinks)
-                    fr_links(j).set_att(S,xfrlinks(j),'fr');
+                    fr_links(j).set_att(S,xfrlinks(j),'fr','si');
                 end
                 
                 % set node attributes
@@ -136,7 +141,7 @@ classdef Freeway
                 for i=1:length(fdp)
                     link = obj.get_link_for_id(fdp(i).ATTRIBUTE.link_id);
                     if(~isempty(link))
-                        link.assign_fundamental_diagram_from_xml(fdp(i).fundamentalDiagram);
+                        link.assign_fundamental_diagram_from_xml(fdp(i).fundamentalDiagram,'si');
                     end
                 end
             end
@@ -208,6 +213,13 @@ classdef Freeway
                     end
                     obj.all_sensors(j).append_5min_data_day(days(i),pems.data(ind));
                 end       
+            end
+        end
+        
+        function [x] = get_sensor_health_for_day(obj,which_link,day,threshold)        
+            x = false(1,length(obj.seg));
+            for i=1:length(obj.seg)
+                x(i)=obj.seg(i).has_good_sensor_on_day(which_link,day,threshold);
             end
         end
         

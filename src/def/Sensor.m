@@ -48,6 +48,14 @@ classdef Sensor < hgsetget
             end
         end
         
+        function [x]=is_good_on_day(obj,day,threshold)
+            ind = day==obj.health.days;
+            if(any(ind))
+                x = obj.health.percent_observed(ind)>=threshold;
+            else
+               x=nan; 
+            end
+        end
         
     end
     
