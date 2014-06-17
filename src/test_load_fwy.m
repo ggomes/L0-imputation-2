@@ -43,6 +43,6 @@ x = fwy.get_all_sensor_health_for_day(day,goodthresh);
 % test build cell array
 cells = build_cell_array(fwy,day,goodthresh);
 
-y=cells.get_num_seg_per_cell()
+y=cells.get_num_seg_per_cell();
 
 disp('done')

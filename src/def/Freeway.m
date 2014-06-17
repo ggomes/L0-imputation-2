@@ -40,6 +40,10 @@ classdef Freeway
                 % get mainline link
                 xmllink = sc_ptr.scenario.NetworkSet.network.LinkList.link(ordered_ind(i));
                 
+                if(~strcmpi(xmllink.link_type.ATTRIBUTE.name,'Freeway'))
+                    continue;
+                end
+                
                 % get upstream node
                 node_ind = xmllink.begin.ATTRIBUTE.node_id==node_ids;
                 if(~any(node_ind))
@@ -126,9 +130,8 @@ classdef Freeway
                 for i=1:size(sensor_link,1)
                     sensor = Sensor;
                     sensor.set_att(sc_ptr.scenario.SensorSet.sensor(i));
-                    ind=sensor.id==sensor_link(:,1);
-                    if(any(ind))
-                        myLink = obj.all_links(ind);
+                    myLink = obj.get_link_for_id(sensor_link(i,2));
+                    if(~isempty(myLink))
                         set(sensor,'myLink',myLink);
                         myLink.add_sensor(sensor);
                     end
@@ -241,15 +244,18 @@ classdef Freeway
         
         function [x] = get_all_sensor_health_for_day(obj,day,threshold)
         % returns table of sensor health information. Each row is a sensor,
-        % columns are [segment index,sensor location,sensor id,sensor vds,sensor health]
-            x = nan(length(obj.all_sensors),5);
+        % columns are [segment index,link id,link type,sensor id,sensor vds,sensor health]
+            x = nan(length(obj.all_sensors),6);
             for i=1:length(obj.all_sensors)
                S = obj.all_sensors(i);
-               x(i,1) = S.myLink.mySegment.index;
-               x(i,2) = Link.type_to_int(S.myLink.type);
-               x(i,3) = S.id;
-               x(i,4) = S.vds;
-               x(i,5) = S.is_good_on_day(day,threshold);
+               if(~isempty(S.myLink))
+                   x(i,1) = S.myLink.mySegment.index;
+                   x(i,2) = S.myLink.id;
+                   x(i,3) = Link.type_to_int(S.myLink.type);
+               end
+               x(i,4) = S.id;
+               x(i,5) = S.vds;
+               x(i,6) = S.is_good_on_day(day,threshold);
             end
         end
     end
