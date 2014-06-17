@@ -257,24 +257,7 @@ classdef Freeway
     % setters .............................................................
     methods ( Access = public )
         
-        % sensors ................
-        function [obj] = disable_sensor_vds(obj,vdslist)
-            for i=1:length(vdslist)
-                S = obj.get_sensor_with_vds(vdslist(i));
-                if(~isempty(S))
-                    S.disable();
-                end
-            end
-        end
-        
-        function [obj] = enable_sensor_vds(obj,vdslist)
-            for i=1:length(vdslist)
-                S = obj.get_sensor_with_vds(vdslist(i));
-                if(~isempty(S))
-                    S.enable();
-                end
-            end
-        end
+        function  [.disable_sensor_vds([772918 717682 717673 761374 717657 717649 717642 717624]);
 
 
         

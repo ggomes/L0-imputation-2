@@ -33,12 +33,10 @@ close all
 
 load aaa
 
-fwy.disable_sensor_vds([772918 717682 717673 761374 717657 717649 717642 717624]);
-
 % test
 x=fwy.get_sensor_health_for_day('ml',day,goodthresh);
 
-x = fwy.get_all_sensor_health_for_day(day,goodthresh);
+x = fwy.get_all_sensor_health_for_day(obj,day,threshold)
 
 % test build cell array
 cells = build_cell_array(fwy,day,goodthresh);

@@ -1,0 +1,145 @@
+K>> imputation_celldata{1:5}
+
+ans = 
+
+              Links: [1 2 3]
+            LinkIDs: [107 108 109]
+          ORlinkIDs: [NaN NaN 1]
+          FRlinkIDs: [NaN NaN NaN]
+              MLdet: {'717688'}
+              HVdet: {'-'}
+            MajorOR: 0
+            MajorFR: 0
+            MLLanes: [4 4 4]
+            HVLanes: [0 0 0]
+         linklength: [0.1352 0.1352 0.1352]
+    orflwnonimputed: {[NaN]  [NaN]  [288x1 double]}
+           imputeor: [0 0 0]
+    frflwnonimputed: {[NaN]  [NaN]  [NaN]}
+           imputefr: [0 0 0]
+          orperlink: [0 0 1]
+          frperlink: [0 0 0]
+             MLflow: [1x1 struct]
+            MLspeed: [1x1 struct]
+             HVflow: [1x1 struct]
+               HVFD: [1x1 struct]
+          MLdensity: [1x1 struct]
+               MLFD: [1x1 struct]
+          HVdensity: [1x1 struct]
+            HVspeed: [1x1 struct]
+
+
+ans = 
+
+              Links: [4 5 6 7 8 9 10]
+            LinkIDs: [110 111 112 113 114 115 116]
+          ORlinkIDs: [NaN 3 NaN NaN NaN NaN NaN]
+          FRlinkIDs: [NaN NaN NaN 5 NaN NaN NaN]
+              MLdet: {'717686'}
+              HVdet: {'-'}
+            MajorOR: 0
+            MajorFR: 0
+            MLLanes: [4 4 4 4 4 4 4]
+            HVLanes: [0 0 0 0 0 0 0]
+         linklength: [0.1211 0.1211 0.1805 0.1805 0.1853 0.1853 0.1853]
+    orflwnonimputed: {[NaN]  [288x1 double]  [NaN]  [NaN]  [NaN]  [NaN]  [NaN]}
+           imputeor: [0 0 0 0 0 0 0]
+    frflwnonimputed: {[NaN]  [NaN]  [NaN]  [288x1 double]  [NaN]  [NaN]  [NaN]}
+           imputefr: [0 0 0 0 0 0 0]
+          orperlink: [0 1 0 0 0 0 0]
+          frperlink: [0 0 0 1 0 0 0]
+             MLflow: [1x1 struct]
+            MLspeed: [1x1 struct]
+             HVflow: [1x1 struct]
+               HVFD: [1x1 struct]
+          MLdensity: [1x1 struct]
+               MLFD: [1x1 struct]
+          HVdensity: [1x1 struct]
+            HVspeed: [1x1 struct]
+
+
+ans = 
+
+              Links: [11 12 13]
+            LinkIDs: [117 118 119]
+          ORlinkIDs: [7 NaN NaN]
+          FRlinkIDs: [NaN NaN NaN]
+              MLdet: {'717685'}
+              HVdet: {'-'}
+            MajorOR: 0
+            MajorFR: 0
+            MLLanes: [4 4 4]
+            HVLanes: [0 0 0]
+         linklength: [0.1853 0.1286 0.1286]
+    orflwnonimputed: {[288x1 double]  [NaN]  [NaN]}
+           imputeor: [0 0 0]
+    frflwnonimputed: {[NaN]  [NaN]  [NaN]}
+           imputefr: [0 0 0]
+          orperlink: [1 0 0]
+          frperlink: [0 0 0]
+             MLflow: [1x1 struct]
+            MLspeed: [1x1 struct]
+             HVflow: [1x1 struct]
+               HVFD: [1x1 struct]
+          MLdensity: [1x1 struct]
+               MLFD: [1x1 struct]
+          HVdensity: [1x1 struct]
+            HVspeed: [1x1 struct]
+
+
+ans = 
+
+              Links: [14 15 16]
+            LinkIDs: [120 121 122]
+          ORlinkIDs: [NaN NaN 11]
+          FRlinkIDs: [9 NaN NaN]
+              MLdet: {'772902'}
+              HVdet: {'-'}
+            MajorOR: 0
+            MajorFR: 0
+            MLLanes: [4 4 4]
+            HVLanes: [0 0 0]
+         linklength: [0.1286 0.1306 0.1306]
+    orflwnonimputed: {[NaN]  [NaN]  [288x1 double]}
+           imputeor: [0 0 0]
+    frflwnonimputed: {[288x1 double]  [NaN]  [NaN]}
+           imputefr: [0 0 0]
+          orperlink: [0 0 1]
+          frperlink: [1 0 0]
+             MLflow: [1x1 struct]
+            MLspeed: [1x1 struct]
+             HVflow: [1x1 struct]
+               HVFD: [1x1 struct]
+          MLdensity: [1x1 struct]
+               MLFD: [1x1 struct]
+          HVdensity: [1x1 struct]
+            HVspeed: [1x1 struct]
+
+
+ans = 
+
+              Links: [17 18 19 20 21]
+            LinkIDs: [14 123 124 125 126]
+          ORlinkIDs: [13 NaN NaN NaN NaN]
+          FRlinkIDs: [NaN NaN 15 NaN NaN]
+              MLdet: {'717678'}
+              HVdet: {'-'}
+            MajorOR: 0
+            MajorFR: 0
+            MLLanes: [5 5 5 4 4]
+            HVLanes: [0 0 0 0 0]
+         linklength: [0.1710 0.1181 0.1181 0.1437 0.1437]
+    orflwnonimputed: {[288x1 double]  [NaN]  [NaN]  [NaN]  [NaN]}
+           imputeor: [0 0 0 0 0]
+    frflwnonimputed: {[NaN]  [NaN]  [288x1 double]  [NaN]  [NaN]}
+           imputefr: [0 0 0 0 0]
+          orperlink: [1 0 0 0 0]
+          frperlink: [0 0 1 0 0]
+             MLflow: [1x1 struct]
+            MLspeed: [1x1 struct]
+             HVflow: [1x1 struct]
+               HVFD: [1x1 struct]
+          MLdensity: [1x1 struct]
+               MLFD: [1x1 struct]
+          HVdensity: [1x1 struct]
+            HVspeed: [1x1 struct]

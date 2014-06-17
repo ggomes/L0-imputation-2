@@ -6,6 +6,8 @@ classdef Sensor < hgsetget
         lanes
         vds  
         
+        disabled
+        
         five_min
         health
         
@@ -14,6 +16,7 @@ classdef Sensor < hgsetget
     methods
         
         function [obj] = Sensor()
+            obj.disabled = false;
             obj.health = struct( ...
                         'days',[], ...
                         'percent_observed',[] );
@@ -51,10 +54,17 @@ classdef Sensor < hgsetget
         function [x]=is_good_on_day(obj,day,threshold)
             ind = day==obj.health.days;
             if(any(ind))
-                x = obj.health.percent_observed(ind)>=threshold;
+                x = ~obj.disabled & obj.health.percent_observed(ind)>=100*threshold;
             else
                x=nan; 
             end
+        end
+        
+        function [obj]=disable(obj)
+            obj.disabled = true;
+        end
+        function [obj]=enable(obj)
+            obj.disabled = false;
         end
         
     end

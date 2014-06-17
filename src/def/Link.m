@@ -4,13 +4,44 @@ classdef Link < hgsetget
         
         id
         mySegment           % reference to containing segment
-        type                % ml,hov,or,fr
+        type                % ml,hv,or,fr
         lanes
         length_meters       % length in meters
         
         fd                  % reference to FundamentalDiagram
         sensor              % reference to sensor
         
+    end
+    
+    methods(Static)
+      function x = type_to_int(xtype)
+         switch(xtype)
+             case 'ml'
+                 x = 0;
+             case 'hv'
+                 x = 1;
+             case 'or'
+                 x = 2;
+             case 'fr' 
+                 x = 3;
+             otherwise
+                 x = nan;
+         end
+      end
+      function x = int_to_type(xint)
+          switch(xint)
+              case 0
+                  x = 'ml';
+              case 1
+                  x = 'hv';
+              case 2
+                  x = 'or';
+              case 3 
+                  x = 'fr';
+              otherwise
+                  x = '';
+          end        
+      end
     end
     
     methods ( Access = public )

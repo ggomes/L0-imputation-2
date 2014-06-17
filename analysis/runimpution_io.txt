@@ -1,0 +1,164 @@
+1. [boundedImputation,insertArtificialData,ArtificialDataFileName,ramps] = processOptionalInputs(optionalInputs);
+2. [OR,FR]=makeORFR(ptr);
+3. loop_health = makeloophealth(processed_data_folder,day);
+4. detectors = makeDetectors(ptr,loop_health,overrides);
+5. FDParams = makeFDParams(ptr);
+6. linkstructure = makeLinkstructure(ptr,processed_data_folder,day,HOVinfo,goodthresh,detectors,OR,FR,MajorOR,MajorFR);
+	=> AfterLinkstructure_xxx
+7. initial_celldata = InitializeCellData(linkstructure,detectors,goodthresh);
+	=> AfterInitialCellData_xxx
+8. imputation_celldata = Impute_CreateCellData_Automated(processed_data_folder,day,initial_celldata,detectors,FDParams,goodthresh,1); % the last option is for using same FD params for the HOV lane, set to 0 if not
+9. imputation_celldata = InsertBogusMainlineData(imputation_celldata,ArtificialData);
+	=> AfterFilledCellData_xxx
+10. [Flow,...				x
+	 Density,...			x
+	 Speed,...				x
+	 OrPresent,...			x	
+	 FrPresent,...			x
+	 ImputeOR,...			x
+	 ImputeFR,...			x
+	 CellLengths,...		x
+	 ORBoundsLower,...		x
+	 ORBoundsUpper,...		x
+	 FRBoundsLower,...		x
+	 FRBoundsUpper,...		x
+	 Demand_Giv,...			x
+	 DemandLower,...		x
+	 DemandUpper,...		x
+	 BETA_Giv,...			x
+	 BETALower,...			x
+	 BETAUpper,...			x
+	 OrFlow_Giv,...			x
+	 FrFlow_Giv,...			x
+	 Capacities,...			x
+	 FreeFlowSpeeds,...		x
+	 CongestionSpeeds,...	x	
+	 JamDensities,...		x
+	 PM,...
+	 DownstreamCongested] 	x
+									= ImputationNetworkToAlgorithmParser( imputation_celldata,...
+																boundarycondition,...
+																MeasureT,...
+																SimT,...
+																FirstAndLastPostMiles,...
+																ramps,...
+																Time,...
+																ptr);
+11. [FlowSim,...			xx
+	 DensitySim,...			xx
+	 SpeedSim,...			xx
+	 OrFlowSim,...			xx
+	 FrFlowSim,...			xx
+	 FreewayDemands,...		xx
+	 Splits,...				xx
+	 OnrampDemands,...		xx
+	 CumulativeDemands,...	xx
+	 ImputeOR,...			xx & x
+	 ImputeFR,...			xx & x
+	 OrPresent,...			xx & x
+	 FrPresent,...			xx & x
+	 OrFlow_Giv,...			xx & x
+	 FrFlow_Giv] = 			xx & x
+										Imputation_Core_Algorithm(Flow,...				x
+											 Density,...			x
+											 Speed,...				x
+											 OrPresent,...			x
+											 FrPresent,...			x
+											 ImputeOR,...			x
+											 ImputeFR,...			x
+											 CellLengths,...		x
+											 ORBoundsLower,...		x
+											 ORBoundsUpper,...		x
+											 FRBoundsLower,...		x
+											 FRBoundsUpper,...		x
+											 Demand_Giv,...			x
+											 DemandLower,...		x
+											 DemandUpper,...		x
+											 BETA_Giv,...			x
+											 BETALower,...			x
+											 BETAUpper,...			x
+											 OrFlow_Giv,...			x
+											 FrFlow_Giv,...			x
+											 Capacities,...			x
+											 FreeFlowSpeeds,...		x
+											 CongestionSpeeds,...	x
+											 JamDensities,...		x
+											 SimT,...
+											 DownstreamCongested,...	x
+											 boundedImputation);
+
+12. [Flow_exp,...			xxx
+	 Density_exp,...		xxx
+	 Speed_exp,...			xxx
+	 FlowSim_exp,...		xxx
+	 DensitySim_exp,...		xxx
+	 SpeedSim_exp,...		xxx
+	 FreewayDemands_exp,...	xxx
+	 Splits_exp,...			xxx
+	 OrFlowSim_exp,...		xxx
+	 FrFlowSim_exp,...		xxx
+	 vf_exp,...				xxx
+	 w_exp,...				xxx
+	 Qmax_exp,...			xxx
+	 rhojam_exp,...			xxx
+	 LinkGroupings,...		xxx
+	 AfterSplits] = 		not used
+									SplitMegaCells(imputation_celldata,...
+										Flow,...					x
+										Density,...					x
+										Speed,...					x
+										FlowSim,...					xx
+										DensitySim,...				xx
+										SpeedSim,...				xx
+										CumulativeDemands,...		xx
+										OnrampDemands,...			xx
+										FreewayDemands,...			xx
+										Splits,...					xx
+										OrPresent,...				xx & x
+										FrPresent,...				xx & x
+										ImputeOR,...				xx & x
+										ImputeFR,...				xx & x
+										OrFlowSim,...				xx
+										FrFlowSim,...				xx
+										OrFlow_Giv,...				xx & x
+										FrFlow_Giv,...				xx & x
+										Demand_Giv,...				x
+										BETA_Giv,...				x
+										FreeFlowSpeeds,...			x
+										CongestionSpeeds,...		x
+										Capacities,...				x
+										JamDensities,...			x
+										CellLengths,...				x
+										PM,...
+										SimT,...
+										Time,...
+										DownstreamCongested,...		x
+										linkstructure,...
+										day,...
+										FDParams,...
+										MeasureT,...
+										suffix,...
+										reportFolder,...
+										ramps,...
+										boundedImputation);
+                                
+13. [SplitCellData] = ImputationAlgorithmToNetworkParser(imputation_celldata,...
+                                                     Flow_exp,...			xxx
+                                                     Density_exp,...		xxx
+                                                     Speed_exp,...			xxx
+                                                     FlowSim_exp,...		xxx
+                                                     DensitySim_exp,...		xxx
+                                                     SpeedSim_exp,...		xxx
+                                                     FreewayDemands_exp,...	xxx
+                                                     Splits_exp,...			xxx
+                                                     OrFlowSim_exp,...		xxx
+                                                     FrFlowSim_exp,...		xxx
+                                                     vf_exp,...				xxx
+                                                     w_exp,...				xxx
+                                                     Qmax_exp,...			xxx
+                                                     rhojam_exp,...			xxx
+                                                     LinkGroupings,...		xxx
+                                                     SimT);
+
+14. linkstructure_demands = MakeDemandProfiles(linkstructure,SplitCellData,SimT,DemandT);
+

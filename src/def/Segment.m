@@ -3,6 +3,7 @@ classdef Segment < hgsetget
     properties
         
         myFreeway
+        index         % order in the freeway, starting from 1
         
         up_node;      % reference to uptream node
         dn_node;      % reference to downstream node
@@ -15,12 +16,13 @@ classdef Segment < hgsetget
     
     methods
         
-        function [obj]=Segment(fwy)
+        function [obj]=Segment(fwy,ind)
+            obj.index = ind;
             obj.myFreeway = fwy;
         end
         
-        function [x]=has_good_sensor_on_day(obj,which_link,day,threshold)
-            switch(which_link)
+        function [x]=has_good_sensor_on_day(obj,link_type,day,threshold)
+            switch(link_type)
                 case 'ml'
                     link = obj.ml_link;
                 case 'hv'

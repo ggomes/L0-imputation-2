@@ -1,0 +1,79 @@
+
+K>> [linkstructure.hasdet]
+
+ans =
+
+  Columns 1 through 19
+
+     1     0     0     1     0     0     1     0     0     0     1     0     0     1     0     1     1     0     0
+
+  Columns 20 through 38
+
+     0     0     1     0     1     0     0     0     1     0     1     1     0     0     1     0     0     0     0
+
+  Columns 39 through 57
+
+     1     1     0     1     0     0     0     1     0     0     1     0     1     0     0     1     0     0     0
+
+  Columns 58 through 76
+
+     0     0     0     1     0     1     0     0     0     1     1     0     0     0     0     0     0     1     0
+
+  Columns 77 through 95
+
+     1     1     0     0     1     1     0     1     0     0     0     1     0     0     0     0     0     1     0
+
+  Columns 96 through 114
+
+     1     0     0     0     0     0     0     0     1     0     0     0     1     0     0     1     0     0     0
+
+  Columns 115 through 127
+
+     0     0     0     1     0     0     1     1     0     0     0     0     1
+	 
+	 
+	 K>> linkstructure(4)
+
+ans = 
+
+                   linkid: 110
+                   UpNode: 3
+                   DnNode: 110
+                   Length: 0.1211
+                   UpLink: 109
+                   DnLink: 111
+                  MLLanes: 4
+                  HVLanes: 0
+                    MLdet: {'717686'}
+                 MLSource: {'vds'}
+                    HVdet: {'-'}
+                 HVSource: []
+                Activedet: 1
+                   hasdet: 1
+                  Onramps: {[1]}
+     OnrampFlowNonImputed: [288x1 double]
+        OnrampNeedsImpute: 0
+                  MajorOR: 0
+                 Offramps: {'-'}
+    OfframpFlowNonImputed: NaN
+       OfframpNeedsImpute: 0
+                  MajorFR: NaN
+				  
+K>> size(linkstructure)
+
+ans =
+
+     1   127
+	 
+K>> linkstructure(4).OnrampFlowNonImputed
+
+ans =
+
+   16.5315
+   26.4671
+   34.0252
+   39.2056
+   42.0084
+   42.4336
+   44.1958
+   ...

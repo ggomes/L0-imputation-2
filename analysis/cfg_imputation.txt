@@ -1,0 +1,21 @@
+K>> cfg.imputation
+
+ans = 
+
+                              day: 735633
+                       goodthresh: 0.7000
+                boundarycondition: 1
+                   DemandTimeStep: 0.0833
+               SimulationTimeStep: 0.0014
+              MeasurementTimeStep: 0.0833
+    FirstAndLastDetectorPostmiles: [42 23]
+                          HOVinfo: [1x1 struct]
+                          MajorOR: [31 96]
+                          MajorFR: [25 92]
+                           Bounds: []
+                           suffix: 'test1'
+           artificialDataFileName: []
+             insertArtificialData: 0
+                        overrides: [772918 717682 717673 761374 717657 717649 717642 717624]
+                             Time: [1 2]
+                   optionalInputs: {[]  [0]  []}
