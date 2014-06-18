@@ -11,7 +11,7 @@ classdef Segment < hgsetget
         hv_link;      % reference to hov link
         or_links;     % reference to onramp links   
         fr_links;     % reference to offramp links   
-        
+                
     end
     
     methods

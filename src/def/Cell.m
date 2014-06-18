@@ -4,6 +4,10 @@ classdef Cell < hgsetget
         
         segments
         
+        % imputation specific
+        ml_fd         % fd to be applied to the cell
+        ml_lanes      % mainline lanes
+        
     end
     
     methods

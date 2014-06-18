@@ -10,32 +10,32 @@
 8. imputation_celldata = Impute_CreateCellData_Automated(processed_data_folder,day,initial_celldata,detectors,FDParams,goodthresh,1); % the last option is for using same FD params for the HOV lane, set to 0 if not
 9. imputation_celldata = InsertBogusMainlineData(imputation_celldata,ArtificialData);
 	=> AfterFilledCellData_xxx
-10. [Flow,...				x
-	 Density,...			x
-	 Speed,...				x
-	 OrPresent,...			x	
-	 FrPresent,...			x
-	 ImputeOR,...			x
-	 ImputeFR,...			x
-	 CellLengths,...		x
-	 ORBoundsLower,...		x
-	 ORBoundsUpper,...		x
-	 FRBoundsLower,...		x
-	 FRBoundsUpper,...		x
-	 Demand_Giv,...			x
-	 DemandLower,...		x
-	 DemandUpper,...		x
-	 BETA_Giv,...			x
-	 BETALower,...			x
-	 BETAUpper,...			x
-	 OrFlow_Giv,...			x
-	 FrFlow_Giv,...			x
-	 Capacities,...			x
-	 FreeFlowSpeeds,...		x
-	 CongestionSpeeds,...	x	
-	 JamDensities,...		x
-	 PM,...
-	 DownstreamCongested] 	x
+10. [Flow,...				x		[720x19]
+	 Density,...			x		[720x19]
+	 Speed,...				x		[720x19]
+	 OrPresent,...			x		[1x19]
+	 FrPresent,...			x		[1x19]
+	 ImputeOR,...			x		[1x19]
+	 ImputeFR,...			x		[1x19]
+	 CellLengths,...		x		[1x19]
+	 ORBoundsLower,...		x		[720x18]
+	 ORBoundsUpper,...		x		[720x18]
+	 FRBoundsLower,...		x		[720x18]
+	 FRBoundsUpper,...		x		[720x18]
+	 Demand_Giv,...			x		[720x19]
+	 DemandLower,...		x		[720x19]
+	 DemandUpper,...		x		[720x19]
+	 BETA_Giv,...			x		[720x19]
+	 BETALower,...			x		[720x19]
+	 BETAUpper,...			x		[720x19]
+	 OrFlow_Giv,...			x		[720x19]
+	 FrFlow_Giv,...			x		[720x19]
+	 Capacities,...			x		[1x19]
+	 FreeFlowSpeeds,...		x		[1x19]
+	 CongestionSpeeds,...	x		[1x19]
+	 JamDensities,...		x		[1x19]
+	 PM,...							[1x19]
+	 DownstreamCongested] 	x		[1x1]
 									= ImputationNetworkToAlgorithmParser( imputation_celldata,...
 																boundarycondition,...
 																MeasureT,...
