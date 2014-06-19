@@ -59,7 +59,7 @@ plot(x)
 figure
 plot(imputation_celldata{1}.MLflow.Data)
 
-load('C:\Users\gomes\code\L0\L0-imputation-2\generated\imputation\AfterFilledCellData_test1_03-Feb-2014')
+load('C:\Users\gomes\code\L0\L0-imputation-2\analysis\AfterFilledCellData_test1_03-Feb-2014')
 
 %.ml_link.sensor.get_5min_data(day,time,'flw')
 
