@@ -44,24 +44,13 @@ classdef Sensor < hgsetget
         
         function [obj]=append_5min_data_day(obj,day,data)
             if(isempty(obj.five_min) || ~ismember(day,[obj.five_min.day]) )
-                
-                time = 86400*(data.time-day);
                 flw = sum(data.flw,2);
                 spd = sum(data.flw.*data.spd,2)./flw;
-                dty = flw./spd;
-                
-                % smooth
-                span = 11;
-                degree = 2;
-                flw = smooth(flw,span,'sgolay',degree);
-                spd = smooth(spd,span,'sgolay',degree);
-                dty = smooth(dty,span,'sgolay',degree);
-
                 obj.five_min = [obj.five_min ...
                                 struct( 'day',day,...
-                                        'time',time,...
+                                        'time',86400*(data.time-day),...
                                         'flw',flw,...
-                                        'dty',dty,...
+                                        'dty',flw./spd,...
                                         'spd',spd) ];
             end
         end
@@ -96,9 +85,8 @@ classdef Sensor < hgsetget
             end
             D = obj.five_min(dind);
             ind = nan(1,length(time));
-            dt = min(diff(D.time));
             for i=1:length(time)
-                ind(i) = find(time(i)>=D.time-dt/4,1,'last');
+                ind(i) = find(time(i)>=D.time,1,'last');
             end
             x = D.(data_type)(ind,:); 
         end
