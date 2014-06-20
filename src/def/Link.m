@@ -11,6 +11,9 @@ classdef Link < hgsetget
         fd                  % reference to FundamentalDiagram
         sensor              % reference to sensor
         
+        % imputation
+        is_major = false    % true for major onramp or major offramp
+        
     end
     
     methods(Static)

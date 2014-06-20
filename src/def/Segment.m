@@ -11,7 +11,7 @@ classdef Segment < hgsetget
         hv_link;      % reference to hov link
         or_links;     % reference to onramp links   
         fr_links;     % reference to offramp links   
-                
+        
     end
     
     methods
@@ -41,6 +41,13 @@ classdef Segment < hgsetget
             end
         end
         
+        function [x]=has_major_or(obj)
+           x = any([obj.or_links.is_major]);
+        end
+        
+        function [x]=has_major_fr(obj)
+           x = any([obj.fr_links.is_major]);
+        end
         
     end
     

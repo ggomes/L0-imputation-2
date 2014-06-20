@@ -153,6 +153,15 @@ classdef Freeway
             
         end
         
+        % set is_major to true for links with id link_id if they are of 
+        % type link_type
+        function obj = set_major(obj,link_id,link_type)
+           [have,ind]=ismember(link_id,[obj.all_links.id]);
+           ind = ind( have & strcmp({obj.all_links(ind).type},link_type) );
+           for i=ind
+               obj.all_links(i).is_major = true;
+           end
+        end
     end
     
     % load data ...........................................................

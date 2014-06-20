@@ -88,7 +88,36 @@ classdef Sensor < hgsetget
             end
         end
 
-        function [x]=get_5min_data(obj,day,time,data_type)
+        function [x]=get_5min_data(obj,day)
+            x = [];
+            dind = [obj.five_min.day]==day;
+            if(~any(dind))
+                return
+            end
+            D = obj.five_min(dind);
+            x.flw = D.flw; 
+            x.dty = D.dty; 
+            x.spd = D.spd; 
+        end
+        
+        function [x]=get_5min_data_time(obj,day,time)
+            x = [];
+            dind = [obj.five_min.day]==day;
+            if(~any(dind))
+                return
+            end
+            D = obj.five_min(dind);
+            ind = nan(1,length(time));
+            dt = min(diff(D.time));
+            for i=1:length(time)
+                ind(i) = find(time(i)>=D.time-dt/4,1,'last');
+            end
+            x.flw = D.flw(ind,:); 
+            x.dty = D.dty(ind,:); 
+            x.spd = D.spd(ind,:); 
+        end
+        
+        function [x]=get_5min_data_time_type(obj,day,time,data_type)
             x = [];
             dind = [obj.five_min.day]==day;
             if(~any(dind))
