@@ -1,4 +1,4 @@
-classdef Freeway
+classdef Freeway < hgsetget
     
     properties ( Access = public )
         
@@ -28,9 +28,11 @@ classdef Freeway
             link_types = sc_ptr.get_link_types;
             node_ids = sc_ptr.get_node_ids;
             ordered_ind = extract_linear_fwy_indices(sc_ptr);
-            num_segments = length(ordered_ind);
+            ordered_fwy_ind = ordered_ind(strcmp(link_types(ordered_ind),'Freeway'));
             
-            nodes = repmat(Node,1,num_segments+1);
+            num_segments = length(ordered_fwy_ind);
+            
+            nodes(num_segments+1) = Node;
             
             % create segments
             for i=1:num_segments
@@ -38,7 +40,7 @@ classdef Freeway
                 S = Segment(obj,i);
                 
                 % get mainline link
-                xmllink = sc_ptr.scenario.NetworkSet.network.LinkList.link(ordered_ind(i));
+                xmllink = sc_ptr.scenario.NetworkSet.network.LinkList.link(ordered_fwy_ind(i));
                 
                 if(~strcmpi(xmllink.link_type.ATTRIBUTE.name,'Freeway'))
                     continue;
@@ -89,19 +91,30 @@ classdef Freeway
                 ml_link.set_att(S,xmllink,'ml','si');
                 
                 % create hov link
-                hv_link = repmat(Link,1,0);
+                hv_link = [];
                 
                 % create onramp links
-                or_links = repmat(Link,1,length(xorlinks));
-                for j=1:length(xorlinks)
-                    or_links(j).set_att(S,xorlinks(j),'or','si');
+                if(~isempty(xorlinks))
+                    clear or_links
+                    or_links(length(xorlinks)) = Link;
+                    for j=1:length(xorlinks)
+                        or_links(j).set_att(S,xorlinks(j),'or','si');
+                    end
+                else
+                    or_links = [];
                 end
                 
                 % create offramp links
-                fr_links = repmat(Link,1,length(xfrlinks));
-                for j=1:length(xfrlinks)
-                    fr_links(j).set_att(S,xfrlinks(j),'fr','si');
+                if(~isempty(xfrlinks))
+                    clear fr_links
+                    fr_links(length(xfrlinks)) = Link;
+                    for j=1:length(xfrlinks)
+                        fr_links(j).set_att(S,xfrlinks(j),'fr','si');
+                    end
+                else
+                    fr_links = [];
                 end
+                
                 
                 % set node attributes
                 set(nodes(i),'dnSegment',S);
@@ -118,7 +131,6 @@ classdef Freeway
                 set(S,'fr_links',fr_links);
                 
                 obj.seg = [obj.seg S];
-                
                 
             end
             
@@ -218,7 +230,7 @@ classdef Freeway
             if(any(ind))
                 L = obj.all_links(ind);
             else
-                L = repmat(Link,1,0);
+                L = [];
             end
         end
         
@@ -229,7 +241,7 @@ classdef Freeway
             if(any(ind))
                 S=obj.all_sensors(ind);
             else
-                S=repmat(Sensor,1,0);
+                S=[];
             end
         end
         
@@ -239,7 +251,7 @@ classdef Freeway
             if(any(ind))
                 S=obj.all_links(ind).sensor;
             else
-                S=repmat(Sensor,1,0);
+                S=[];
             end
         end
         

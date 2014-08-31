@@ -2,6 +2,7 @@ clear
 close all
 
 root = fileparts(fileparts(mfilename('fullpath')));
+addpath(fullfile(root,'src','def'))
 
 load(fullfile(root,'analysis','fwy'))
 day = 735633;
@@ -15,88 +16,82 @@ time = 0:300:86100;
 % plot(imputation_celldata{1}.MLflow.Data,'r--','LineWidth',2)
 
 load(fullfile(root,'analysis','imputation_input_test1_03-Feb-2014'))
-
-
-% sensor.get_5min_data_time_type(day,time,'flw')
-% 
-% sensor.get_5min_data_time(day,time)
-% 
-% x = sensor.get_5min_data(day);
-
 get_time = 3600*( Time(1):SimT:(Time(2)-SimT) );
 
-
-
 %% Flow % [720x19] 1.2588 0.9783 1.2917 1.0691 1.3340
-% X = Flow;
-% x = nan(720,19);
-% for i=1:length(cell_array.cells)
-%     sensor = cell_array.cells(i).segments(1).ml_link.sensor;
-%     x(:,i) = sensor.get_5min_data_time_type(day,get_time,'flw')*SimT;
-% end
-% figure
-% plot(get_time,X(:,1),'k')
-% hold on 
-% plot(get_time,x(:,1),'r')
-% clear X x
+X = Flow;
+x = nan(720,19);
+for i=1:length(cell_array.cells)
+    sensor = cell_array.cells(i).segments(1).ml_link.sensor;
+    x(:,i) = sensor.get_5min_data_time_type(day,get_time,'flw')*SimT;
+end
+figure
+plot(get_time,X(:,1),'k')
+hold on 
+plot(get_time,x(:,1),'r')
+clear X x
 
-%% Density % [720x19] 6.1420   13.8526    5.6753    4.7285   10.5255 
-% X = Density;
-% x = nan(720,19);
-% for i=1:length(cell_array.cells)
-%     cell = cell_array.cells(i);
-%     sensor = cell_array.cells(i).segments(1).ml_link.sensor;
-%     LinkLen = cell.get_total_length_miles;
-%     x(:,i) = sensor.get_5min_data_time_type(day,get_time,'dty')*LinkLen;
-% end
-% figure
-% plot(get_time,X(:,1),'k')
-% hold on 
-% plot(get_time,x(:,1),'r')
-% clear X x
+%% OK Density % [720x19] 6.1420   13.8526    5.6753    4.7285   10.5255 
+X = Density;
+x = nan(720,19);
+for i=1:length(cell_array.cells)
+    cell = cell_array.cells(i);
+    sensor = cell_array.cells(i).segments(1).ml_link.sensor;
+    LinkLen = cell.get_total_length_miles;
+    x(:,i) = sensor.get_5min_data_time_type(day,get_time,'dty')*LinkLen;
+end
+figure
+plot(get_time,X(:,1),'k')
+hold on 
+plot(get_time,x(:,1),'r')
+clear X x
 
-%% Speed % [720x19] 60.1183   59.1879   72.5572   63.3952   63.2871
-% X = Speed;
-% x = nan(720,19);
-% for i=1:length(cell_array.cells)
-%     sensor = cell_array.cells(i).segments(1).ml_link.sensor;
-%     x(:,i) = sensor.get_5min_data_time_type(day,get_time,'spd');
-% end
-% figure
-% plot(get_time,X(:,1),'k')
-% hold on 
-% plot(get_time,x(:,1),'r')
-% clear X x
+%% OK Speed % [720x19] 60.1183   59.1879   72.5572   63.3952   63.2871
+X = Speed;
+x = nan(720,19);
+for i=1:length(cell_array.cells)
+    sensor = cell_array.cells(i).segments(1).ml_link.sensor;
+    x(:,i) = sensor.get_5min_data_time_type(day,get_time,'spd');
+end
+figure
+plot(get_time,X(:,1),'k')
+hold on 
+plot(get_time,x(:,1),'r')
+clear X x
 
-%% OrPresent % [1x19] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
-% X = OrPresent;
-% x = nan(1,19);
-% for i=1:length(cell_array.cells)
-%     x(i) = cell_array.cells(i).has_onramp;
-% end
-% find(X~=x)
-% x-X
+% OrPresent % [1x19] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
+X = OrPresent;
+x = nan(1,19);
+for i=1:length(cell_array.cells)
+    x(i) = cell_array.cells(i).has_or;
+end
+if(any(X~=x))
+    disp('failed: OrPresent')
+end
 
-%% FrPresent % [1x19] 0 1 0 1 1 0 1 1 1 1 1 0 1 1 0 1 1 1 0
-% X = FrPresent;
-% x = nan(1,19);
-% for i=1:length(cell_array.cells)
-%     x(i) = cell_array.cells(i).has_offramp;
-% end
-% find(X~=x)
-% x-X
+% FrPresent % [1x19] 0 1 0 1 1 0 1 1 1 1 1 0 1 1 0 1 1 1 0
+X = FrPresent;
+x = nan(1,19);
+for i=1:length(cell_array.cells)
+    x(i) = cell_array.cells(i).has_fr;
+end
+if(any(X~=x))
+    disp('failed: FPresent')
+end
 
 %% ImputeOR % [1x19] 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 1 0 0
 %% ImputeFR % [1x19] 0 0 0 0 0 0 1 1 1 1 1 0 1 1 0 1 0 1 0
 
-%% CellLengths % [1x19] 0.4056 1.1590 0.4425 0.3898 0.6946
-% X = CellLengths;
-% x = zeros(1,19);
-% for i=1:length(cell_array.cells)
-%     cell = cell_array.cells(i);
-%     x(i) = cell.get_total_length_miles;
-% end
-% X-x
+%% OK CellLengths % [1x19] 0.4056 1.1590 0.4425 0.3898 0.6946
+X = CellLengths;
+x = zeros(1,19);
+for i=1:length(cell_array.cells)
+    cell = cell_array.cells(i);
+    x(i) = cell.get_total_length_miles;
+end
+if(max(abs(X-x))>0.015)
+    disp('failure: CellLengths')
+end
 
 %% Demand_Giv % [720x19] 0 0.0367 0.1026 0.0543 0.0169
  % BETA_Giv % [720x19] 0 0.0874  0 0.0804 0.0216
@@ -112,27 +107,25 @@ get_time = 3600*( Time(1):SimT:(Time(2)-SimT) );
  % BETAUpper % [720x19] 0 0.0874  0 0.0804 0.0216
 % [ORBoundsLower,ORBoundsUpper,FRBoundsLower,FRBoundsUpper,DemandLower,DemandUpper,BETALower,BETAUpper] = ProcessBounds(Bounds,CellData,numtime,numcell,Impute,SimT,STime,OrFlow,FrFlow,Qmax,w,rhojam,vf,Density,ptr);
 
-
-
-%% OrFlow_Giv % [720x19] 0.0190 0.0367 0.1026 0.0543 0.0169
-% X = OrFlow_Giv;
-% x = nan(720,19);
-% for i=1:length(cell_array.cells)
-%     cell = cell_array.cells(i);
-%     xx = zeros(720,1);
-%     for j=1:length(cell.segments)
-%         or_link = cell.segments(j).or_links;
-%         if(~isempty(or_link) & ~isempty(or_link.sensor))
-%             xx = xx + or_link.sensor.get_5min_data_time_type(day,get_time,'flw')*SimT;
-%         end
-%     end
-%     x(:,i) = xx;
-% end
-% figure
-% plot(get_time,X(:,1),'k')
-% hold on 
-% plot(get_time,x(:,1),'r')
-% clear X x
+% OrFlow_Giv % [720x19] 0.0190 0.0367 0.1026 0.0543 0.0169
+X = OrFlow_Giv;
+x = nan(720,19);
+for i=1:length(cell_array.cells)
+    cell = cell_array.cells(i);
+    xx = zeros(720,1);
+    for j=1:length(cell.segments)
+        or_link = cell.segments(j).or_links;
+        if(~isempty(or_link) & ~isempty(or_link.sensor))
+            xx = xx + or_link.sensor.get_5min_data_time_type(day,get_time,'flw')*SimT;
+        end
+    end
+    x(:,i) = xx;
+end
+figure
+plot(get_time,X(:,1),'k')
+hold on 
+plot(get_time,x(:,1),'r')
+clear X x
 
 
 %% FrFlow_Giv % [720x19]  0 0.0977  0 0.0943 0.0323

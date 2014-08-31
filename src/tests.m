@@ -58,6 +58,8 @@ cell_array = build_cell_array(fwy,day,goodthresh,'use_first_segment');
 
 save(fullfile(root,'analysis','fwy'),'cell_array','fwy')
 
+% test has_or_dwnstr(obj)
+fwy.seg(1).has_or_dwnstr
 
 % cells.get_num_seg_per_cell()
 

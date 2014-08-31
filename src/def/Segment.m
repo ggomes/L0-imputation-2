@@ -28,9 +28,9 @@ classdef Segment < hgsetget
                 case 'hv'
                     link = obj.hv_link;
                 case 'or'
-                    link = obj.or_link;
+                    link = obj.or_links;
                 case 'fr'
-                    link = obj.fr_link;
+                    link = obj.fr_links;
                 otherwise
                     error('bad inptu parameter')
             end
@@ -49,6 +49,14 @@ classdef Segment < hgsetget
            x = any([obj.fr_links.is_major]);
         end
         
+        function [x]=get_or_dwnstr(obj)
+            x = [];
+            if(obj.index==length(obj.myFreeway.seg))
+                return;
+            end
+            x = obj.myFreeway.seg(obj.index+1).or_links;
+        end
+
     end
     
 end
